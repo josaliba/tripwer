@@ -44,6 +44,14 @@ class Member extends User
     private $address;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="subscription_date", type="datetime")
+     */
+    private $subscriptionDate;
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -121,4 +129,26 @@ class Member extends User
     {
         return $this->address;
     }
+
+    /**
+     * @param \DateTime $subscriptionDate
+     * @return Member
+     */
+    public function setSubscriptionDate(\DateTime $subscriptionDate)
+    {
+        $this->subscriptionDate = $subscriptionDate;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getSubscriptionDate()
+    {
+        return $this->subscriptionDate;
+    }
+
+
+
+
 }
