@@ -8,7 +8,7 @@ use FOS\UserBundle\Model\User;
 /**
  * Member
  *
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="tripwer_members")
  * @ORM\Entity
  */
 class Member extends User
@@ -32,7 +32,7 @@ class Member extends User
     /**
      * @var string
      *
-     * @ORM\Column(name="dateOfBirth", type="datetime")
+     * @ORM\Column(name="date_of_birth", type="datetime")
      */
     private $dateOfBirth;
 
