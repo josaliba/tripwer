@@ -1,0 +1,5 @@
+tripwer_accounts:
+    resource: "@TripwerAccountsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
