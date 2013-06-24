@@ -3,3 +3,21 @@ tripwer_accounts:
     type:     annotation
     prefix:   /
 
+tripwer_member_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+tripwer_member_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+tripwer_member_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+tripwer_member_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+tripwer_member_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
