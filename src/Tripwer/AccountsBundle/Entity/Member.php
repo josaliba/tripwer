@@ -2,6 +2,7 @@
 
 namespace Tripwer\AccountsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -67,6 +68,17 @@ class Member extends User
      */
     private $subscriptionDate;
 
+    /**
+     * @var ArrayCollection $friends
+     * @ORM\ManyToMany(targetEntity="Member")
+     * @ORM\JoinTable(name="tripwer_member_friends")
+     */
+    private $friends;
+
+
+    public function __construct(){
+        $this->friends = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -201,9 +213,33 @@ class Member extends User
         return $this->lastName;
     }
 
+    public function getFriends(){
+        return $this->friends;
+    }
 
+    public function addFriend(Member $member,$reverse = true){
+        $this->friends->add($member);
+        if ($reverse){
+            $member->addFriend($this,false);
+        }
 
+        return $this;
+    }
 
+    public function setFriends(ArrayCollection $friends){
+        $this->friends = $friends;
+    }
 
+    public function removeFriend(Member $friend,$reverse = true){
+        $this->friends->removeElement($friend);
+        if ($reverse){
+            $friend->removeFriend($this,false);
+        }
 
+        return $this;
+    }
+
+    public function isFriendWithMember(Member $member){
+        return $this->friends->contains($member);
+    }
 }
