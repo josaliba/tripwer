@@ -1,6 +1,6 @@
 services:
-    tripwer.accounts.forms.member_registration:
-        class: Tripwer\AccountsBundle\Form\MemberRegistrationFormType
+    tripwer.accounts.forms.user_registration:
+        class: Tripwer\AccountsBundle\Form\UserRegistrationFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: tripwer_member_registration }
+            - { name: form.type, alias: tripwer_user_registration }

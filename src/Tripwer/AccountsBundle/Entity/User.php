@@ -4,18 +4,18 @@ namespace Tripwer\AccountsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Member
  *
- * @ORM\Table(name="tripwer_members")
+ * @ORM\Table(name="tripwer_users")
  * @ORM\Entity
  * @todo add constraints and validation messages
  */
-class Member extends User
+class User extends BaseUser
 {
     /**
      * @var integer
@@ -67,13 +67,6 @@ class Member extends User
      * @ORM\Column(name="subscription_date", type="datetime")
      */
     private $subscriptionDate;
-
-    /**
-     * @var ArrayCollection $friends
-     * @ORM\ManyToMany(targetEntity="Member")
-     * @ORM\JoinTable(name="tripwer_member_friends")
-     */
-    private $friends;
 
 
     public function __construct(){
@@ -213,60 +206,4 @@ class Member extends User
     {
         return $this->lastName;
     }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getFriends(){
-        return $this->friends;
-    }
-
-    /**
-     * @param ArrayCollection $friends
-     */
-    public function setFriends(ArrayCollection $friends){
-        $this->friends = $friends;
-    }
-
-    /**
-     * @param Member $member
-     * @param bool $spread
-     * @return $this
-     */
-    public function addFriend(Member $member, $spread = true){
-        $this->friends->add($member);
-        if ($spread){
-            $member->addFriend($this,false);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Member $member
-     * @param bool $spread
-     * @return $this
-     */
-    public function removeFriend(Member $member,$spread = true){
-        $this->friends->removeElement($member);
-        if ($spread){
-            $member->removeFriend($member,false);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Member $member
-     * @return bool
-     */
-    public function isFriendWithMember(Member $member){
-        return $this->friends->contains($member);
-    }
-
-
-
-
-
-
 }

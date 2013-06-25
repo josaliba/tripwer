@@ -5,7 +5,7 @@ namespace Tripwer\AccountsBundle\Form;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class MemberRegistrationFormType extends RegistrationFormType{
+class UserRegistrationFormType extends RegistrationFormType{
 
     public function buildForm(FormBuilderInterface $builder,array $options){
         parent::buildForm($builder,$options);
@@ -20,7 +20,7 @@ class MemberRegistrationFormType extends RegistrationFormType{
     }
 
     public function getName(){
-        return "tripwer_member_registration";
+        return "tripwer_user_registration";
     }
 }
 
