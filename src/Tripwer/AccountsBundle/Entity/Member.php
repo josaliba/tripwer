@@ -5,12 +5,14 @@ namespace Tripwer\AccountsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Member
  *
  * @ORM\Table(name="tripwer_members")
  * @ORM\Entity
+ * @todo add constraints and validation messages
  */
 class Member extends User
 {
@@ -25,14 +27,14 @@ class Member extends User
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
      * @ORM\Column(name="first_name", type="string", length=255)
      */
     private $firstName;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
      * @ORM\Column(name="last_name", type="string", length=255)
      */
     private $lastName;
@@ -54,7 +56,7 @@ class Member extends User
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
     private $address;
 

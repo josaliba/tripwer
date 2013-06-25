@@ -68,3 +68,12 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Tripwer\AccountsBundle\Entity\Member
+    registration:
+        form:
+            type: tripwer_member_registration
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true
