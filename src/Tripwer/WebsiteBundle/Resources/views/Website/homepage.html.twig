@@ -1,0 +1,8 @@
+{% extends "TripwerWebsiteBundle::layout.html.twig" %}
+
+{% block top_bar_navigation %}
+    <p>
+        <a href='{{ path("fos_user_registration_register") }}' style='margin-right: 20px;'>Register</a>
+        <a href='{{ path("fos_user_security_login") }}'>sign in</a>
+    </p>
+{% endblock %}

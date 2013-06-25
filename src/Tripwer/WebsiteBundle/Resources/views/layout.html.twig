@@ -2,7 +2,25 @@
 
 {% block stylesheets %}
     {% stylesheets filter="yui_css"
-    '@TripwerWebsiteBundle/Resources/public/css/style.less'%}
+        '@TripwerWebsiteBundle/Resources/public/css/reset.css'
+        '@TripwerWebsiteBundle/Resources/public/css/style.less'
+    %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <div id="body_container">
+        <div id="top_bar">
+            <div class='centered_980'>
+                <div class='logo'>
+                    <h1>Tripwer.com</h1>
+                </div>
+                <div class='top_bar_navigation'>
+                {% block top_bar_navigation %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

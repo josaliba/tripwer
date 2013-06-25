@@ -1,1 +1,11 @@
 {% extends "TripwerWebsiteBundle::layout.html.twig" %}
+
+{% block top_bar_navigation %}
+    <p>
+        <span style='margin-right:100px'>
+            Welcome {{ app.user.firstname }} {{ app.user.lastname }}
+        </span>
+        <a href='{{ path("fos_user_profile_edit") }}' style='margin-right: 20px;'>Profile</a>
+        <a href='{{ path("fos_user_security_logout") }}'>logout</a>
+    </p>
+{% endblock %}

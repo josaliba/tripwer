@@ -13,6 +13,7 @@ class WebsiteController extends Controller
     /**
      * @Route("/", name="homepage")
      * @Template()
+     * @Secure("IS_AUTHENTICATED_ANONYMOUSLY")
      */
     public function homepageAction()
     {
@@ -20,15 +21,16 @@ class WebsiteController extends Controller
             return $this->redirect($this->generateUrl("member_homepage"));
         }
 
-        die("Anonymous homepage");
+        return array();
     }
 
     /**
      * @Route("/home", name="member_homepage")
-     * @Secure("ROLE_USER")
      * @Template()
+     * @Secure("ROLE_USER")
      */
     public function memberHomepageAction(){
+
         return array();
     }
 }
