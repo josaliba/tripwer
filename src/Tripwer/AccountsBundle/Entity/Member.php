@@ -213,33 +213,59 @@ class Member extends User
         return $this->lastName;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getFriends(){
         return $this->friends;
     }
 
-    public function addFriend(Member $member,$reverse = true){
+    /**
+     * @param ArrayCollection $friends
+     */
+    public function setFriends(ArrayCollection $friends){
+        $this->friends = $friends;
+    }
+
+    /**
+     * @param Member $member
+     * @param bool $spread
+     * @return $this
+     */
+    public function addFriend(Member $member, $spread = true){
         $this->friends->add($member);
-        if ($reverse){
+        if ($spread){
             $member->addFriend($this,false);
         }
 
         return $this;
     }
 
-    public function setFriends(ArrayCollection $friends){
-        $this->friends = $friends;
-    }
-
-    public function removeFriend(Member $friend,$reverse = true){
-        $this->friends->removeElement($friend);
-        if ($reverse){
-            $friend->removeFriend($this,false);
+    /**
+     * @param Member $member
+     * @param bool $spread
+     * @return $this
+     */
+    public function removeFriend(Member $member,$spread = true){
+        $this->friends->removeElement($member);
+        if ($spread){
+            $member->removeFriend($member,false);
         }
 
         return $this;
     }
 
+    /**
+     * @param Member $member
+     * @return bool
+     */
     public function isFriendWithMember(Member $member){
         return $this->friends->contains($member);
     }
+
+
+
+
+
+
 }
