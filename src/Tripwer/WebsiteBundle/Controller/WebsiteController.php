@@ -26,8 +26,9 @@ class WebsiteController extends Controller
     /**
      * @Route("/home", name="member_homepage")
      * @Secure("ROLE_USER")
+     * @Template()
      */
     public function memberHomepageAction(){
-        die("Member homepage");
+        return array();
     }
 }

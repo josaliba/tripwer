@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6824d252ec197fb3050d53749b793995",
+    "hash": "9ecdf881eb996aeebf2d13de971cde42",
     "packages": [
         {
             "name": "doctrine/common",
@@ -913,6 +913,47 @@
             "time": "2013-06-01 22:13:43"
         },
         {
+            "name": "leafo/lessphp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafo/lessphp.git",
+                "reference": "ff86f2941c3f3d67d56acad2f8902ca57c73b359"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/ff86f2941c3f3d67d56acad2f8902ca57c73b359",
+                "reference": "ff86f2941c3f3d67d56acad2f8902ca57c73b359",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Leaf Corcoran",
+                    "email": "leafot@gmail.com",
+                    "homepage": "http://leafo.net"
+                }
+            ],
+            "description": "lessphp is a compiler for LESS written in PHP.",
+            "homepage": "http://leafo.net/lessphp/",
+            "time": "2013-05-22 17:52:29"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.5.0",
             "source": {
@@ -1751,7 +1792,8 @@
     "stability-flags": {
         "friendsofsymfony/user-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
-        "jms/aop-bundle": 20
+        "jms/aop-bundle": 20,
+        "leafo/lessphp": 20
     },
     "platform": {
         "php": ">=5.3.3"
