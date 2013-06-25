@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new Tripwer\AccountsBundle\TripwerAccountsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-
+,
+            new Tripwer\WebsiteBundle\TripwerWebsiteBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
