@@ -4,6 +4,7 @@ namespace Tripwer\AccountsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Member
@@ -21,6 +22,20 @@ class Member extends User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=255)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=255)
+     */
+    private $lastName;
 
     /**
      * @var string
@@ -45,7 +60,7 @@ class Member extends User
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="subscription_date", type="datetime")
      */
     private $subscriptionDate;
@@ -147,6 +162,44 @@ class Member extends User
     {
         return $this->subscriptionDate;
     }
+
+    /**
+     * @param string $firstName
+     * @return Member
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $lastName
+     * @return Member
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+
 
 
 
