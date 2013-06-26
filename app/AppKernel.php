@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new Tripwer\SocialNetworkingBundle\TripwerSocialNetworkingBundle(),
+            new PUGX\MultiUserBundle\PUGXMultiUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
