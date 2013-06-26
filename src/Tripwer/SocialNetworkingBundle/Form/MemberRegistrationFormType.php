@@ -1,26 +1,18 @@
 <?php
 
-namespace Tripwer\AccountsBundle\Form;
+namespace Tripwer\SocialNetworkingBundle\Form;
 
-use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Tripwer\AccountsBundle\Form\UserRegistrationFormType;
 
-class UserRegistrationFormType extends RegistrationFormType{
+class MemberRegistrationFormType extends UserRegistrationFormType{
 
     public function buildForm(FormBuilderInterface $builder,array $options){
         parent::buildForm($builder,$options);
-
-        //$builder->remove("username");
-
-        $builder->add("firstName");
-        $builder->add("lastName");
-        $builder->add("sex");
-        $builder->add("dateOfBirth");
-
     }
 
     public function getName(){
-        return "tripwer_user_registration";
+        return "tripwer_socialnetworking_member_registration_form";
     }
 }
 

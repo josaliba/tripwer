@@ -74,10 +74,19 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Tripwer\AccountsBundle\Entity\User
-    registration:
-        form:
-            type: tripwer_user_registration
+    service:
+        user_manager: pugx_user_manager
 
+pugx_multi_user:
+    users:
+        tripwer_socialnetwork_member:
+            entity:
+                class: Tripwer\SocialNetworkingBundle\Entity\Member
+            registration:
+                form:
+                    type: Tripwer\SocialNetworkingBundle\Form\MemberRegistrationFormType
+                    name: tripwer_socialnetworking_member_registration_form
+                    validation_groups:  [Registration, Default]
 stof_doctrine_extensions:
     default_locale: en_US
     orm:

@@ -9,13 +9,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Member
+ * User
  *
  * @ORM\Table(name="tripwer_users")
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"})
+ * @ORM\DiscriminatorMap({
+ *      "social_networking_User" = "Tripwer\SocialNetworkingBundle\Entity\User"
+ * })
  * @todo add constraints and validation messages
  */
 abstract class User extends BaseUser
@@ -90,7 +92,7 @@ abstract class User extends BaseUser
      * Set sex
      *
      * @param string $sex
-     * @return Member
+     * @return User
      */
     public function setSex($sex)
     {
@@ -113,7 +115,7 @@ abstract class User extends BaseUser
      * Set dateOfBirth
      *
      * @param string $dateOfBirth
-     * @return Member
+     * @return User
      */
     public function setDateOfBirth($dateOfBirth)
     {
@@ -136,7 +138,7 @@ abstract class User extends BaseUser
      * Set address
      *
      * @param string $address
-     * @return Member
+     * @return User
      */
     public function setAddress($address)
     {
@@ -157,7 +159,7 @@ abstract class User extends BaseUser
 
     /**
      * @param \DateTime $subscriptionDate
-     * @return Member
+     * @return User
      */
     public function setSubscriptionDate(\DateTime $subscriptionDate)
     {
@@ -175,7 +177,7 @@ abstract class User extends BaseUser
 
     /**
      * @param string $firstName
-     * @return Member
+     * @return User
      */
     public function setFirstName($firstName)
     {
@@ -193,7 +195,7 @@ abstract class User extends BaseUser
 
     /**
      * @param string $lastName
-     * @return Member
+     * @return User
      */
     public function setLastName($lastName)
     {
