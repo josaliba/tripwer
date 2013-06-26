@@ -13,9 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="tripwer_users")
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"})
  * @todo add constraints and validation messages
  */
-class User extends BaseUser
+abstract class User extends BaseUser
 {
     /**
      * @var integer
@@ -71,7 +74,6 @@ class User extends BaseUser
 
     public function __construct(){
         parent::__construct();
-        $this->friends = new ArrayCollection();
     }
 
     /**

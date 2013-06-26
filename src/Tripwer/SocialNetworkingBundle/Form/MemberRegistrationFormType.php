@@ -21,7 +21,6 @@ class UserRegistrationFormType extends RegistrationFormType{
 
     public function getName(){
         return "tripwer_user_registration";
-
     }
 }
 
