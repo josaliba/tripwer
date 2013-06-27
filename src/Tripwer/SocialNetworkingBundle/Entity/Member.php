@@ -33,6 +33,7 @@ class Member extends TripwerUser
         parent::__construct();
         $this->friends = new ArrayCollection();
         $this->blacklistedMembers = new ArrayCollection();
+
     }
 
     public function getBlacklistedMembers(){
@@ -44,7 +45,7 @@ class Member extends TripwerUser
     }
 
     public function hasMemberInBlacklist(Member $member){
-        return $this->blacklistedMembers->contains($member);
+        return $this->blacklistedMembers->contains($member) || $member === $this;
     }
 
     public function removeMemberFromBlacklist(Member $member){

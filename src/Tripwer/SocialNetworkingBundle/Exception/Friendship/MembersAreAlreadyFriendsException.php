@@ -1,6 +1,6 @@
 <?php
 
-namespace Tripwer\SocialNetworkingBundle\Exception\Member;
+namespace Tripwer\SocialNetworkingBundle\Exception\Friendship;
 
 use Tripwer\SocialNetworkingBundle\Entity\Member;
 

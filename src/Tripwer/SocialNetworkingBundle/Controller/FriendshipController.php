@@ -1,0 +1,115 @@
+<?php
+
+namespace Tripwer\SocialNetworkingBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
+use Tripwer\SocialNetworkingBundle\Entity\Member;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotOwnerOfFriendshipRequest;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotRecipientOfFriendshipRequest;
+use Tripwer\SocialNetworkingBundle\Service\FriendshipService;
+
+
+class FriendshipController extends Controller{
+
+    /**
+     * @Route("/friendship/{id}/request", name="socialnetworking.friendship.send_request")
+     * @Secure("ROLE_USER")
+     * @Method("POST")
+     * @ParamConverter("member", class="TripwerSocialNetworkingBundle:Member")
+     */
+    public function sendRequestAction(Member $member){
+        /** @var FriendshipService $friendshipService */
+        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+        $user = $this->get("security.context")->getToken()->getUser();
+
+        $friendshipService->createRequest($user,$member);
+
+        //@todo redirect to $member profile
+    }
+
+    /**
+     * @Route("/friendship/{id}/accept", name="socialnetworking.friendship.accept_request")
+     * @Secure("ROLE_USER")
+     * @ParamConverter("friendshipRequest", class="TripwerSocialNetworkingBundle:FriendshipRequest")
+     */
+    public function acceptRequestAction(FriendshipRequest $friendshipRequest){
+
+        $user = $this->get("security.context")->getToken()->getUser();
+        if ($friendshipRequest->getTo() === $user){
+            /** @var FriendshipService $friendshipService */
+            $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+            $friendshipService->acceptRequest($friendshipRequest);
+        }else{
+            throw new MemberIsNotRecipientOfFriendshipRequest($user,$friendshipRequest);
+        }
+
+        //@todo redirect to $friendshipRequest()->getFrom() profile
+    }
+
+    /**
+     * @Route("/friendship/{id}/deny",name="socialnetworking.friendship.deny_request")
+     * @Secure("ROLE_USER")
+     * @ParamConverter("friendshipRequest", class="TripwerSocialNetworkingBundle:FriendshipRequest")
+     */
+    public function denyRequestAction(FriendshipRequest $friendshipRequest){
+        $user = $this->get("security.context")->getToken()->getUser();
+        if ($friendshipRequest->getTo() === $user){
+            /** @var FriendshipService $friendshipService */
+            $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+            $friendshipService->denyRequest($friendshipRequest);
+        }else{
+            throw new MemberIsNotRecipientOfFriendshipRequest($user,$friendshipRequest);
+        }
+
+        //@todo redirect to $user profile
+    }
+
+    public function deleteRequestAction(FriendshipRequest $friendshipRequest){
+        $user = $this->get("security.context")->getToken()->getUser();
+
+        if ($friendshipRequest->getFrom() !== $user){
+            throw new MemberIsNotOwnerOfFriendshipRequest($user,$friendshipRequest);
+        }
+
+        /** @var FriendshipService $friendshipService */
+        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+        $friendshipService->deleteRequest($friendshipRequest);
+
+        // @todo redirect to $user profile
+
+    }
+
+    /**
+     * @Route("/{id}/unfriend", name="socialnetworking.friendship.unfriend")
+     * @Secure("ROLE_USER")
+     * @ParamConverter("member", class="TripwerSocialNetworkingBundle:Member")
+     */
+    public function unfriendAction(Member $member){
+        /** @var Member $user */
+        $user = $this->get("security.context")->getToken()->getUser();
+        /** @var FriendshipService $friendshipService */
+        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+
+        $friendshipService->unfriend($user,$member);
+
+        // @todo redirect to $user profile
+    }
+
+    /**
+     * @Route("/friends", name="socialnetworking.friendship.list_friends")
+     */
+    public function listFriendsAction(){
+        /** @var Member $user */
+        $user = $this->get("security.context")->getToken()->getUser();
+
+        return $user->getFriends();
+    }
+
+}

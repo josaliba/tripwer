@@ -1,0 +1,5 @@
+services:
+    tripwer.socialnetworking.friendship:
+        class: Tripwer\SocialNetworkingBundle\Service\FriendshipService
+        arguments:
+            em: @doctrine.orm.entity_manager

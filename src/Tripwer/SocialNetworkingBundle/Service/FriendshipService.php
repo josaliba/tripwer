@@ -3,15 +3,15 @@
 namespace Tripwer\SocialNetworkingBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Entity\Member;
-use Tripwer\SocialNetworkingBundle\Exception\FriendshipRequest\FriendshipRequestAlreadyExistsException;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\FriendshipRequestAlreadyAnsweredException;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\FriendshipRequestAlreadyExistsException;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\MembersAreNotFriendsException;
 use Tripwer\SocialNetworkingBundle\Exception\Member\MemberIsInBlacklistException;
-use Tripwer\SocialNetworkingBundle\Exception\Member\MembersAreAlreadyFriendsException;
+use Tripwer\SocialNetworkingBundle\Exception\Friendship\MembersAreAlreadyFriendsException;
 
-class FriendshipRequestService{
-
+class FriendshipService{
 
     private $em;
 
@@ -20,6 +20,7 @@ class FriendshipRequestService{
     }
 
     public function createRequest(Member $from,Member $to){
+
         if ($from->hasFriend($to)){
             throw new MembersAreAlreadyFriendsException($from,$to);
         }
@@ -47,7 +48,7 @@ class FriendshipRequestService{
             ->from("Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest","r")
             ->where("r.from = :fromMember AND r.to = :toMember")
             ->orWhere("r.from = :toMember AND r.to = :fromMember")
-            ->orderBy("r.createDate DESC")
+            ->orderBy("r.createDate","DESC")
             ->setMaxResults(1)
             ->setParameters(array(
                 "fromMember" => $from,
@@ -64,6 +65,10 @@ class FriendshipRequestService{
     }
 
     public function acceptRequest(FriendshipRequest $friendshipRequest){
+        if ($friendshipRequest->isAnswered()){
+            throw new FriendshipRequestAlreadyAnsweredException($friendshipRequest);
+        }
+
         $friendshipRequest->setAnswered(true);
         $friendshipRequest->setAccepted(true);
         $friendshipRequest->getFrom()->addFriend($friendshipRequest->getTo());
@@ -71,9 +76,30 @@ class FriendshipRequestService{
         $this->em->flush();
     }
 
-    public function refuseRequest(FriendshipRequest $friendshipRequest){
+    public function denyRequest(FriendshipRequest $friendshipRequest){
+
+        if ($friendshipRequest->isAnswered()){
+            throw new FriendshipRequestAlreadyAnsweredException($friendshipRequest);
+        }
+
         $friendshipRequest->setAnswered(true);
         $friendshipRequest->setAccepted(false);
+        $this->em->flush();
+    }
+
+    public function deleteRequest(FriendshipRequest $friendshipRequest){
+        // @todo can an already answered request be deleted?
+        $this->em->remove($friendshipRequest);
+        $this->em->flush();
+    }
+
+    public function unfriend(Member $member1, Member $member2){
+        if (!$member1->hasFriend($member2)){
+            throw new MembersAreNotFriendsException($member1,$member2);
+        }
+        $member1->removeFriend($member2);
+
+        $this->em->persist($member1);
         $this->em->flush();
     }
 
