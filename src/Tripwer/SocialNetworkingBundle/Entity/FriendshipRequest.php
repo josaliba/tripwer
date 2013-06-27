@@ -7,9 +7,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * FriendshipRequest
- *
  * @ORM\Table()
  * @ORM\Entity
+ * @Gedmo\SoftDeleteable(fieldName="deleteDate")
  */
 class FriendshipRequest
 {
@@ -66,6 +66,11 @@ class FriendshipRequest
      * @ORM\Column(name="answer_date", type="datetime", nullable=true)
      */
     private $answerDate;
+
+    /**
+     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     */
+    private $deleteDate;
 
     /**
      * Get id
@@ -187,6 +192,26 @@ class FriendshipRequest
     {
         return $this->createDate;
     }
+
+    /**
+     * @param mixed $deleteDate
+     * @return FriendshipRequest
+     */
+    public function setDeleteDate($deleteDate)
+    {
+        $this->deleteDate = $deleteDate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeleteDate()
+    {
+        return $this->deleteDate;
+    }
+
+
 
 
 

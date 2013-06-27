@@ -61,6 +61,10 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        filters:
+            softdeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -87,6 +91,7 @@ pugx_multi_user:
                     type: Tripwer\SocialNetworkingBundle\Form\MemberRegistrationFormType
                     name: tripwer_socialnetworking_member_registration_form
                     validation_groups:  [Registration, Default]
+
 stof_doctrine_extensions:
     default_locale: en_US
     orm:
