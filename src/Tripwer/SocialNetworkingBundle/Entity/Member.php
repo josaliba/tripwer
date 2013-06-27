@@ -9,7 +9,7 @@ use Tripwer\AccountsBundle\Entity\User as TripwerUser;
 /**
  * Member
  *
- * @ORM\Table(name="tripwer_sn_members")
+ * @ORM\Table(name="socialnetworking_members")
  * @ORM\Entity
  */
 class Member extends TripwerUser
@@ -17,7 +17,7 @@ class Member extends TripwerUser
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $friends
      * @ORM\ManyToMany(targetEntity="Member")
-     * @ORM\JoinTable(name="tripwer_sn_member_friendships")
+     * @ORM\JoinTable(name="socialnetworking_members_friendship_relationship")
      */
     private $friends;
 

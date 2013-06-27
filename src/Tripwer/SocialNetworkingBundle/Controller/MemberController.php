@@ -19,14 +19,4 @@ class MemberController extends Controller
             ->register('Tripwer\SocialNetworkingBundle\Entity\Member');
     }
 
-    /**
-     * @Route("/register/admin")
-     * @Template()
-     */
-    public function adminRegisterAction()
-    {
-        return $this->container
-            ->get('pugx_multi_user.registration_manager')
-            ->register('Tripwer\SocialNetworkingBundle\Entity\Admin');
-    }
 }

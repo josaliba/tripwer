@@ -11,12 +11,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="tripwer_users")
+ * @ORM\Table(name="users")
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *      "social_networking_User" = "Tripwer\SocialNetworkingBundle\Entity\User"
+ *      "social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"
  * })
  * @todo add constraints and validation messages
  */
