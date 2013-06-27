@@ -21,9 +21,38 @@ class Member extends TripwerUser
      */
     private $friends;
 
+    /**
+     * Members that $this doesn't want to receive friendship requests from
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Member")
+     * @ORM\JoinTable(name="socialnetworking_members_blacklist")
+     */
+    private $blacklistedMembers;
+
     public function __construct(){
         parent::__construct();
         $this->friends = new ArrayCollection();
+        $this->blacklistedMembers = new ArrayCollection();
+    }
+
+    public function getBlacklistedMembers(){
+        return $this->blacklistedMembers;
+    }
+
+    public function setBlacklistedMembers(ArrayCollection $blacklist){
+        $this->blacklistedMembers = $blacklist;
+    }
+
+    public function hasMemberInBlacklist(Member $member){
+        return $this->blacklistedMembers->contains($member);
+    }
+
+    public function removeMemberFromBlacklist(Member $member){
+        $this->blacklistedMembers->removeElement($member);
+    }
+
+    public function addMemberToBlacklist(Member $member){
+        $this->blacklistedMembers->add($member);
     }
 
     public function getFriends(){
