@@ -3,6 +3,7 @@
 namespace Tripwer\SocialNetworkingBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Entity\Member;
 
 class FriendshipRequestService{
@@ -19,7 +20,17 @@ class FriendshipRequestService{
 
         }
 
+        if ($to->hasMemberInBlacklist($from)){
 
+        }
+
+        $friendshipRequest = new FriendshipRequest();
+
+        $friendshipRequest->setFrom($from);
+        $friendshipRequest->setTo($to);
+
+        $this->em->persist($friendshipRequest);
+        $this->em->flush();
     }
 
     public function requestExists(Member $from, Member $to){
@@ -41,6 +52,20 @@ class FriendshipRequestService{
         }
 
         return false;
+    }
+
+    public function acceptRequest(FriendshipRequest $friendshipRequest){
+        $friendshipRequest->setAnswered(true);
+        $friendshipRequest->setAccepted(true);
+        $friendshipRequest->getFrom()->addFriend($friendshipRequest->getTo());
+        $this->em->persist($friendshipRequest);
+        $this->em->flush();
+    }
+
+    public function refuseRequest(FriendshipRequest $friendshipRequest){
+        $friendshipRequest->setAnswered(true);
+        $friendshipRequest->setAccepted(false);
+        $this->em->flush();
     }
 
 }
