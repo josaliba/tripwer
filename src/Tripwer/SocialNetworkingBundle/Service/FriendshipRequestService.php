@@ -3,8 +3,12 @@
 namespace Tripwer\SocialNetworkingBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Entity\Member;
+use Tripwer\SocialNetworkingBundle\Exception\FriendshipRequest\FriendshipRequestAlreadyExistsException;
+use Tripwer\SocialNetworkingBundle\Exception\Member\MemberIsInBlacklistException;
+use Tripwer\SocialNetworkingBundle\Exception\Member\MembersAreAlreadyFriendsException;
 
 class FriendshipRequestService{
 
@@ -17,11 +21,15 @@ class FriendshipRequestService{
 
     public function createRequest(Member $from,Member $to){
         if ($from->hasFriend($to)){
-
+            throw new MembersAreAlreadyFriendsException($from,$to);
         }
 
         if ($to->hasMemberInBlacklist($from)){
+            throw new MemberIsInBlacklistException($to,$from);
+        }
 
+        if ($this->requestExists($from,$to)){
+            throw new FriendshipRequestAlreadyExistsException($from,$to);
         }
 
         $friendshipRequest = new FriendshipRequest();
@@ -38,6 +46,7 @@ class FriendshipRequestService{
         $requests = $qb->select("r")
             ->from("Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest","r")
             ->where("r.from = :fromMember AND r.to = :toMember")
+            ->orWhere("r.from = :toMember AND r.to = :fromMember")
             ->orderBy("r.createDate DESC")
             ->setMaxResults(1)
             ->setParameters(array(
