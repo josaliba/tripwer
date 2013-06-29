@@ -24,7 +24,7 @@ class FriendshipRequest
 
     /**
      * The user that sent the request
-     * @ORM\OneToOne(targetEntity="Member")
+     * @ORM\ManyToOne(targetEntity="Member")
      * @ORM\JoinColumn(name="from_member_id", nullable=false)
      * @var Member $from
      */
@@ -32,7 +32,7 @@ class FriendshipRequest
 
     /**
      * The user which the request is sent to
-     * @ORM\OneToOne(targetEntity="Member")
+     * @ORM\ManyToOne(targetEntity="Member")
      * @ORM\JoinColumn(name="to_member_id", nullable=false)
      * @var Member $to
      */

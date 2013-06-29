@@ -9,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="socialnetworking_notifications")
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *      "friend_request_notification" = "Tripwer\SocialNetworkingBundle\Entity\FriendRequestNotification"
+ * })
  */
 abstract class Notification
 {
@@ -34,6 +39,13 @@ abstract class Notification
      * @ORM\Column(name="viewed", type="boolean")
      */
     private $viewed;
+
+    /**
+     * @var Member
+     * @ORM\ManyToOne(targetEntity="Member")
+     *
+     */
+    private $receiver;
 
 
     /**
@@ -91,4 +103,24 @@ abstract class Notification
     {
         return $this->viewed;
     }
+
+    /**
+     * @param \Tripwer\SocialNetworkingBundle\Entity\Member $receiver
+     * @return Notification
+     */
+    public function setReceiver($receiver)
+    {
+        $this->receiver = $receiver;
+        return $this;
+    }
+
+    /**
+     * @return \Tripwer\SocialNetworkingBundle\Entity\Member
+     */
+    public function getReceiver()
+    {
+        return $this->receiver;
+    }
+
+
 }
