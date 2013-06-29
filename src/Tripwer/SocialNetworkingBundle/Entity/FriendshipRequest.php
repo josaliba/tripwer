@@ -70,7 +70,7 @@ class FriendshipRequest
     /**
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
-    private $deleteDate;
+    private $deleteDate = null;
 
     /**
      * Get id

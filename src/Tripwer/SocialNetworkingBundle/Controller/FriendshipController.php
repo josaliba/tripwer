@@ -13,7 +13,7 @@ use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Entity\Member;
 use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotOwnerOfFriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotRecipientOfFriendshipRequest;
-use Tripwer\SocialNetworkingBundle\Service\FriendshipService;
+use Tripwer\SocialNetworkingBundle\Manager\FriendshipManager;
 
 
 class FriendshipController extends Controller{
@@ -25,11 +25,11 @@ class FriendshipController extends Controller{
      * @ParamConverter("member", class="TripwerSocialNetworkingBundle:Member")
      */
     public function sendRequestAction(Member $member){
-        /** @var FriendshipService $friendshipService */
-        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+        /** @var FriendshipManager $friendshipManager */
+        $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
         $user = $this->get("security.context")->getToken()->getUser();
 
-        $friendshipService->createRequest($user,$member);
+        $friendshipManager->createRequest($user,$member);
 
         //@todo redirect to $member profile
     }
@@ -43,9 +43,9 @@ class FriendshipController extends Controller{
 
         $user = $this->get("security.context")->getToken()->getUser();
         if ($friendshipRequest->getTo() === $user){
-            /** @var FriendshipService $friendshipService */
-            $friendshipService = $this->get("tripwer.socialnetworking.friendship");
-            $friendshipService->acceptRequest($friendshipRequest);
+            /** @var FriendshipManager $friendshipManager */
+            $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
+            $friendshipManager->acceptRequest($friendshipRequest);
         }else{
             throw new MemberIsNotRecipientOfFriendshipRequest($user,$friendshipRequest);
         }
@@ -61,9 +61,9 @@ class FriendshipController extends Controller{
     public function denyRequestAction(FriendshipRequest $friendshipRequest){
         $user = $this->get("security.context")->getToken()->getUser();
         if ($friendshipRequest->getTo() === $user){
-            /** @var FriendshipService $friendshipService */
-            $friendshipService = $this->get("tripwer.socialnetworking.friendship");
-            $friendshipService->denyRequest($friendshipRequest);
+            /** @var FriendshipManager $friendshipManager */
+            $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
+            $friendshipManager->denyRequest($friendshipRequest);
         }else{
             throw new MemberIsNotRecipientOfFriendshipRequest($user,$friendshipRequest);
         }
@@ -78,9 +78,9 @@ class FriendshipController extends Controller{
             throw new MemberIsNotOwnerOfFriendshipRequest($user,$friendshipRequest);
         }
 
-        /** @var FriendshipService $friendshipService */
-        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
-        $friendshipService->deleteRequest($friendshipRequest);
+        /** @var FriendshipManager $friendshipManager */
+        $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
+        $friendshipManager->deleteRequest($friendshipRequest);
 
         // @todo redirect to $user profile
 
@@ -94,10 +94,10 @@ class FriendshipController extends Controller{
     public function unfriendAction(Member $member){
         /** @var Member $user */
         $user = $this->get("security.context")->getToken()->getUser();
-        /** @var FriendshipService $friendshipService */
-        $friendshipService = $this->get("tripwer.socialnetworking.friendship");
+        /** @var FriendshipManager $friendshipManager */
+        $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
 
-        $friendshipService->unfriend($user,$member);
+        $friendshipManager->unfriend($user,$member);
 
         // @todo redirect to $user profile
     }

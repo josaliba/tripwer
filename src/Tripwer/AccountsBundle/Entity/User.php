@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"
  * })
  * @todo add constraints and validation messages
+ * @todo create an address entity and link it with user
  */
 abstract class User extends BaseUser
 {
@@ -61,13 +62,6 @@ abstract class User extends BaseUser
     private $dateOfBirth;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
-     */
-    private $address;
-
-    /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="subscription_date", type="datetime")
@@ -78,6 +72,13 @@ abstract class User extends BaseUser
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
     private $deleteDate;
+
+    /**
+     * @var Address $address
+     * @ORM\OneToOne(targetEntity="Address")
+     * @ORM\JoinColumn(name="address_id", nullable=false)
+     */
+    private $address;
 
 
     public function __construct(){
@@ -143,10 +144,10 @@ abstract class User extends BaseUser
     /**
      * Set address
      *
-     * @param string $address
+     * @param Address $address
      * @return User
      */
-    public function setAddress($address)
+    public function setAddress(Address $address)
     {
         $this->address = $address;
     
@@ -156,7 +157,7 @@ abstract class User extends BaseUser
     /**
      * Get address
      *
-     * @return string 
+     * @return Address
      */
     public function getAddress()
     {

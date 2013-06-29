@@ -1,6 +1,6 @@
 <?php
 
-namespace Tripwer\SocialNetworkingBundle\Service;
+namespace Tripwer\SocialNetworkingBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest;
@@ -11,7 +11,7 @@ use Tripwer\SocialNetworkingBundle\Exception\Friendship\MembersAreNotFriendsExce
 use Tripwer\SocialNetworkingBundle\Exception\Member\MemberIsInBlacklistException;
 use Tripwer\SocialNetworkingBundle\Exception\Friendship\MembersAreAlreadyFriendsException;
 
-class FriendshipService{
+class FriendshipManager{
 
     private $em;
 
@@ -40,6 +40,15 @@ class FriendshipService{
 
         $this->em->persist($friendshipRequest);
         $this->em->flush();
+
+        return $friendshipRequest;
+    }
+
+    public function updateRequest(FriendshipRequest $friendshipRequest){
+        $this->em->persist($friendshipRequest);
+        $this->em->flush();
+
+        return $friendshipRequest;
     }
 
     public function requestExists(Member $from, Member $to){

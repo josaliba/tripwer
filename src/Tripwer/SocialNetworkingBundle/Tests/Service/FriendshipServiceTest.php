@@ -2,10 +2,15 @@
 
 namespace Tripwer\SocialNetworkingBundle\Tests\Service;
 
+use Doctrine\ORM\EntityManager;
+
 class FriendshipServiceTest extends \PHPUnit_Framework_TestCase{
 
-    public function testCreate(){
-        $this->assertEquals(42, 42);
+    private $entityManager;
+
+    public function setUp(){
+
     }
+
 
 }
