@@ -29,10 +29,31 @@ class Member extends TripwerUser
      */
     private $blacklistedMembers;
 
+    /**
+     * @var ArrayCollection $notificationsReceived
+     * @ORM\OneToMany(targetEntity="Notification",mappedBy="receiver",cascade={"all"})
+     */
+    private $notificationsReceived;
+
+    /**
+     * @var ArrayCollection $friendRequestsReceived
+     * @ORM\OneToMany(targetEntity="FriendshipRequest",mappedBy="to",cascade={"all"})
+     */
+    private $friendshipRequestsReceived;
+
+    /**
+     * @var ArrayCollection $friendRequestsSent
+     * @ORM\OneToMany(targetEntity="FriendshipRequest",mappedBy="from",cascade={"all"})
+     */
+    private $friendshipRequestsSent;
+
     public function __construct(){
         parent::__construct();
         $this->friends = new ArrayCollection();
         $this->blacklistedMembers = new ArrayCollection();
+        $this->notificationsReceived = new ArrayCollection();
+        $this->friendRequestsReceived = new ArrayCollection();
+        $this->friendRequestsSent = new ArrayCollection();
 
     }
 
@@ -87,6 +108,24 @@ class Member extends TripwerUser
 
         return $this;
     }
+
+    public function getNotificationsReceived(){
+        return $this->notificationsReceived;
+    }
+
+    public function getFriendshipRequestsReceived(){
+        return $this->friendshipRequestsReceived;
+    }
+
+    public function getFriendshipRequestsSent(){
+        return $this->friendshipRequestsSent;
+    }
+
+
+
+
+
+
 
 
 }

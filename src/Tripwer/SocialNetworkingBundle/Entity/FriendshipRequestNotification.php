@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FriendRequestNotification
  *
- * @ORM\Table(name="social_networking_friend_request_notification")
+ * @ORM\Table(name="social_networking_friendship_request_notification")
  * @ORM\Entity
  */
-class FriendRequestNotification extends Notification
+class FriendshipRequestNotification extends Notification
 {
     /**
      * @var Member $requester

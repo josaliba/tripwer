@@ -3,16 +3,19 @@
 namespace Tripwer\SocialNetworkingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Tripwer\SocialNetworkingBundle\Entity\Member;
 
 /**
  * Notification
  *
  * @ORM\Table(name="socialnetworking_notifications")
  * @ORM\Entity
+ * @Gedmo\SoftDeleteable(fieldName="deleteDate")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *      "friend_request_notification" = "Tripwer\SocialNetworkingBundle\Entity\FriendRequestNotification"
+ *      "friend_request_notification" = "Tripwer\SocialNetworkingBundle\Entity\FriendshipRequestNotification"
  * })
  */
 abstract class Notification
@@ -46,6 +49,12 @@ abstract class Notification
      *
      */
     private $receiver;
+
+    /**
+     * @var \DateTime $deleteDate
+     * @ORM\Column(type="datetime",name="delete_date",nullable=true)
+     */
+    private $deleteDate = null;
 
 
     /**
@@ -121,6 +130,26 @@ abstract class Notification
     {
         return $this->receiver;
     }
+
+    /**
+     * @param \DateTime $deleteDate
+     * @return Notification
+     */
+    public function setDeleteDate($deleteDate)
+    {
+        $this->deleteDate = $deleteDate;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeleteDate()
+    {
+        return $this->deleteDate;
+    }
+
+
 
 
 }

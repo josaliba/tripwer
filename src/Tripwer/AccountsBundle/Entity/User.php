@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @Gedmo\SoftDeleteable(fieldName="deleteDate")
+ * @Gedmo\SoftDeleteable(fieldName="accountDeactivatedByMember")
  * @ORM\DiscriminatorMap({
  *      "social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"
  * })
@@ -69,9 +69,9 @@ abstract class User extends BaseUser
     private $subscriptionDate;
 
     /**
-     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     * @ORM\Column(name="account_deactivated_by_member", type="datetime", nullable=true)
      */
-    private $deleteDate;
+    private $accountDeactivatedByMember;
 
     /**
      * @var Address $address
@@ -219,22 +219,24 @@ abstract class User extends BaseUser
     }
 
     /**
-     * @param mixed $deleteDate
+     * @param mixed $accountDeactivatedByMember
      * @return User
      */
-    public function setDeleteDate($deleteDate)
+    public function setAccountDeactivatedByMember($accountDeactivatedByMember)
     {
-        $this->deleteDate = $deleteDate;
+        $this->accountDeactivatedByMember = $accountDeactivatedByMember;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getDeleteDate()
+    public function getAccountDeactivatedByMember()
     {
-        return $this->deleteDate;
+        return $this->accountDeactivatedByMember;
     }
+
+
 
 
 }
