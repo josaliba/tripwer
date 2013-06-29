@@ -19,7 +19,7 @@ class FriendshipManager{
         $this->em = $em;
     }
 
-    public function createRequest(Member $from,Member $to){
+    public function createRequest(Member $from,Member $to,$flush = true){
 
         if ($from->hasFriend($to)){
             throw new MembersAreAlreadyFriendsException($from,$to);
@@ -39,14 +39,18 @@ class FriendshipManager{
         $friendshipRequest->setTo($to);
 
         $this->em->persist($friendshipRequest);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
 
         return $friendshipRequest;
     }
 
-    public function updateRequest(FriendshipRequest $friendshipRequest){
+    public function updateRequest(FriendshipRequest $friendshipRequest,$flush = true){
         $this->em->persist($friendshipRequest);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
 
         return $friendshipRequest;
     }
@@ -73,19 +77,23 @@ class FriendshipManager{
         return false;
     }
 
-    public function acceptRequest(FriendshipRequest $friendshipRequest){
+    public function acceptRequest(FriendshipRequest $friendshipRequest,$flush = true){
         if ($friendshipRequest->isAnswered()){
             throw new FriendshipRequestAlreadyAnsweredException($friendshipRequest);
         }
 
         $friendshipRequest->setAnswered(true);
         $friendshipRequest->setAccepted(true);
-        $friendshipRequest->getFrom()->addFriend($friendshipRequest->getTo());
+
+        $this->makeFriends($friendshipRequest->getFrom(),$friendshipRequest->getTo(),$flush);
+
         $this->em->persist($friendshipRequest);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
     }
 
-    public function denyRequest(FriendshipRequest $friendshipRequest){
+    public function denyRequest(FriendshipRequest $friendshipRequest,$flush = true){
 
         if ($friendshipRequest->isAnswered()){
             throw new FriendshipRequestAlreadyAnsweredException($friendshipRequest);
@@ -93,23 +101,43 @@ class FriendshipManager{
 
         $friendshipRequest->setAnswered(true);
         $friendshipRequest->setAccepted(false);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
     }
 
-    public function deleteRequest(FriendshipRequest $friendshipRequest){
+    public function deleteRequest(FriendshipRequest $friendshipRequest,$flush = true){
         // @todo can an already answered request be deleted?
         $this->em->remove($friendshipRequest);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
     }
 
-    public function unfriend(Member $member1, Member $member2){
+    public function unfriend(Member $member1, Member $member2, $flush = true){
         if (!$member1->hasFriend($member2)){
             throw new MembersAreNotFriendsException($member1,$member2);
         }
         $member1->removeFriend($member2);
 
         $this->em->persist($member1);
-        $this->em->flush();
+
+        if ($flush)
+            $this->em->flush();
+    }
+
+    public function makeFriends(Member $member1,Member $member2,$flush = true){
+        if ($member1->hasFriend($member2)){
+            throw new MembersAreAlreadyFriendsException($member1,$member2);
+        }
+
+        $member1->addFriend($member2);
+
+        $this->em->persist($member1);
+
+        if ($flush)
+           $this->em->flush();
+
     }
 
 }
