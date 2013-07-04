@@ -24,35 +24,35 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="city", type="string", length=255)
+     * @ORM\Column(name="city", type="string", length=255, nullable=false)
      */
     private $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=255)
+     * @ORM\Column(name="country", type="string", length=255, nullable=false)
      */
     private $country;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zipCode", type="string", length=255)
+     * @ORM\Column(name="zipCode", type="string", length=255, nullable=true)
      */
     private $zipCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=255)
+     * @ORM\Column(name="state", type="string", length=255, nullable=true)
      */
     private $state;
 

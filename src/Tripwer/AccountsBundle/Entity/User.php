@@ -36,35 +36,35 @@ abstract class User extends BaseUser
     /**
      * @var string
      * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
-     * @ORM\Column(name="first_name", type="string", length=255)
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=false)
      */
     private $firstName;
 
     /**
      * @var string
      * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
-     * @ORM\Column(name="last_name", type="string", length=255)
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=false)
      */
     private $lastName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="sex", type="string", length=255)
+     * @ORM\Column(name="sex", type="string", length=255, nullable=false)
      */
     private $sex;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="date_of_birth", type="datetime")
+     * @ORM\Column(name="date_of_birth", type="datetime", nullable=false)
      */
     private $dateOfBirth;
 
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="subscription_date", type="datetime")
+     * @ORM\Column(name="subscription_date", type="datetime", nullable=false)
      */
     private $subscriptionDate;
 
@@ -76,7 +76,7 @@ abstract class User extends BaseUser
     /**
      * @var Address $address
      * @ORM\OneToOne(targetEntity="Address", cascade={"all"})
-     * @ORM\JoinColumn(name="address_id", nullable=false)
+     * @ORM\JoinColumn(name="address_id", nullable=true)
      */
     private $address;
 

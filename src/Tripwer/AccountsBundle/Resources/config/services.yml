@@ -4,3 +4,9 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: tripwer_user_registration }
+    tripwer.events.user.registration:
+        class: Tripwer\AccountsBundle\EventListener\UserRegistrationListener
+        tags:
+          - { name : kernel.event_subscriber }
+        arguments:
+            em: @doctrine.orm.entity_manager
