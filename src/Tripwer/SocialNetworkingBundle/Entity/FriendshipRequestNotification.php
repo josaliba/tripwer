@@ -18,9 +18,11 @@ class FriendshipRequestNotification extends Notification
      */
     private $requester;
 
+
+
     /**
      * @param \Tripwer\SocialNetworkingBundle\Entity\Member $requester
-     * @return FriendRequestNotification
+     * @return FriendshipRequestNotification
      */
     public function setRequester($requester)
     {

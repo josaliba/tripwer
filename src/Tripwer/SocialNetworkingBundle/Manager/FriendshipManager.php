@@ -19,7 +19,7 @@ class FriendshipManager{
         $this->em = $em;
     }
 
-    public function createRequest(Member $from,Member $to,$flush = true){
+    public function createRequest(Member $from,Member $to){
 
         if ($from->hasFriend($to)){
             throw new MembersAreAlreadyFriendsException($from,$to);
@@ -38,42 +38,19 @@ class FriendshipManager{
         $friendshipRequest->setFrom($from);
         $friendshipRequest->setTo($to);
 
-        $this->em->persist($friendshipRequest);
-
-        if ($flush)
-            $this->em->flush();
-
         return $friendshipRequest;
     }
 
-    public function updateRequest(FriendshipRequest $friendshipRequest,$flush = true){
-        $this->em->persist($friendshipRequest);
-
-        if ($flush)
-            $this->em->flush();
-
-        return $friendshipRequest;
-    }
 
     public function requestExists(Member $from, Member $to){
-        $qb = $this->em->createQueryBuilder();
-        $requests = $qb->select("r")
-            ->from("Tripwer\SocialNetworkingBundle\Entity\FriendshipRequest","r")
-            ->where("r.from = :fromMember AND r.to = :toMember")
-            ->orWhere("r.from = :toMember AND r.to = :fromMember")
-            ->orderBy("r.createDate","DESC")
-            ->setMaxResults(1)
-            ->setParameters(array(
-                "fromMember" => $from,
-                "toMember" => $to
-            ))
-            ->getQuery()->getResult();
+
 
         //a request exist only if the latest request is not answered yet
-        if (count($requests) && !$requests[0]->isAnswered()){
+        /*if (count($requests) && !$requests[0]->isAnswered()){
             return true;
         }
 
+        return false;*/
         return false;
     }
 

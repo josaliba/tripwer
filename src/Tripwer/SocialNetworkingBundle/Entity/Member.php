@@ -4,6 +4,7 @@ namespace Tripwer\SocialNetworkingBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Tests\Models\Generic\BooleanModel;
 use Tripwer\AccountsBundle\Entity\User as TripwerUser;
 
 /**
@@ -14,6 +15,13 @@ use Tripwer\AccountsBundle\Entity\User as TripwerUser;
  */
 class Member extends TripwerUser
 {
+
+    /**
+     * @var bool $temporaryDisabled
+     * @ORM\Column(name="temporary_disabled", type="boolean", nullable=true)
+     */
+    private $temporaryDisabled = false;
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $friends
      * @ORM\ManyToMany(targetEntity="Member")
@@ -120,6 +128,26 @@ class Member extends TripwerUser
     public function getFriendshipRequestsSent(){
         return $this->friendshipRequestsSent;
     }
+
+    /**
+     * @param boolean $temporaryDisabled
+     * @return Member
+     */
+    public function setTemporaryDisabled($temporaryDisabled)
+    {
+        $this->temporaryDisabled = $temporaryDisabled;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTemporaryDisabled()
+    {
+        return $this->temporaryDisabled;
+    }
+
+
 
 
 

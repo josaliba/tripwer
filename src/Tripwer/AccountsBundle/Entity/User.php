@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @Gedmo\SoftDeleteable(fieldName="accountDeactivatedByMember")
+ * @Gedmo\SoftDeleteable(fieldName="deleteDate")
  * @ORM\DiscriminatorMap({
  *      "social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"
  * })
@@ -69,13 +69,13 @@ abstract class User extends BaseUser
     private $subscriptionDate;
 
     /**
-     * @ORM\Column(name="account_deactivated_by_member", type="datetime", nullable=true)
+     * @ORM\Column(name="deleteDate", type="datetime", nullable=true)
      */
-    private $accountDeactivatedByMember;
+    private $deleteDate;
 
     /**
      * @var Address $address
-     * @ORM\OneToOne(targetEntity="Address")
+     * @ORM\OneToOne(targetEntity="Address", cascade={"all"})
      * @ORM\JoinColumn(name="address_id", nullable=false)
      */
     private $address;
@@ -219,22 +219,24 @@ abstract class User extends BaseUser
     }
 
     /**
-     * @param mixed $accountDeactivatedByMember
+     * @param mixed $deleteDate
      * @return User
      */
-    public function setAccountDeactivatedByMember($accountDeactivatedByMember)
+    public function setDeleteDate($deleteDate)
     {
-        $this->accountDeactivatedByMember = $accountDeactivatedByMember;
+        $this->deleteDate = $deleteDate;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getAccountDeactivatedByMember()
+    public function getDeleteDate()
     {
-        return $this->accountDeactivatedByMember;
+        return $this->deleteDate;
     }
+
+
 
 
 

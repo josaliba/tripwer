@@ -2,6 +2,7 @@
 
 namespace Tripwer\SocialNetworkingBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -14,9 +15,17 @@ use Tripwer\SocialNetworkingBundle\Entity\Member;
 use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotOwnerOfFriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Exception\Friendship\MemberIsNotRecipientOfFriendshipRequest;
 use Tripwer\SocialNetworkingBundle\Manager\FriendshipManager;
+use JMS\DiExtraBundle\Annotation as DI;
 
 
 class FriendshipController extends Controller{
+
+
+    /**
+     * @var EntityManager $em
+     * @DI\Inject("doctrine.orm.entity_manager")
+     */
+    private $em;
 
     /**
      * @Route("/friendship/{id}/request", name="socialnetworking.friendship.send_request")
@@ -29,7 +38,10 @@ class FriendshipController extends Controller{
         $friendshipManager = $this->get("tripwer.socialnetworking.friendship_manager");
         $user = $this->get("security.context")->getToken()->getUser();
 
-        $friendshipManager->createRequest($user,$member);
+        $friendshipRequest = $friendshipManager->createRequest($user,$member);
+
+        $this->em->persist($friendshipRequest);
+        $this->em->flush();
 
         //@todo redirect to $member profile
     }
@@ -111,5 +123,7 @@ class FriendshipController extends Controller{
 
         return $user->getFriends();
     }
+
+
 
 }

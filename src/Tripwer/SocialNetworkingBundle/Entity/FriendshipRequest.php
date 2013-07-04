@@ -8,8 +8,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * FriendshipRequest
  * @ORM\Table()
- * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deleteDate")
+ * @ORM\Entity(repositoryClass="Tripwer\SocialNetworkingBundle\Entity\Repository\FriendshipRequestRepository")
  */
 class FriendshipRequest
 {
@@ -65,7 +65,7 @@ class FriendshipRequest
      * @var \DateTime
      * @ORM\Column(name="answer_date", type="datetime", nullable=true)
      */
-    private $answerDate;
+    private $answerDate = null;
 
     /**
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)

@@ -45,7 +45,7 @@ abstract class Notification
 
     /**
      * @var Member
-     * @ORM\ManyToOne(targetEntity="Member")
+     * @ORM\ManyToOne(targetEntity="Member", cascade={"persist"})
      *
      */
     private $receiver;
