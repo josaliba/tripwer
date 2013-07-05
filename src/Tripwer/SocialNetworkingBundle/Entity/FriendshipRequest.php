@@ -7,9 +7,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * FriendshipRequest
- * @ORM\Table()
- * @Gedmo\SoftDeleteable(fieldName="deleteDate")
+ * @ORM\Table(name="socialnetworking__friendship_requests")
  * @ORM\Entity(repositoryClass="Tripwer\SocialNetworkingBundle\Entity\Repository\FriendshipRequestRepository")
+ * @Gedmo\SoftDeleteable(fieldName="cancelDate")
  */
 class FriendshipRequest
 {
@@ -26,17 +26,17 @@ class FriendshipRequest
      * The user that sent the request
      * @ORM\ManyToOne(targetEntity="Member")
      * @ORM\JoinColumn(name="from_member_id", nullable=false)
-     * @var Member $from
+     * @var Member $sender
      */
-    private $from;
+    private $sender;
 
     /**
      * The user which the request is sent to
      * @ORM\ManyToOne(targetEntity="Member")
      * @ORM\JoinColumn(name="to_member_id", nullable=false)
-     * @var Member $to
+     * @var Member $receiver
      */
-    private $to;
+    private $receiver;
 
     /**
      * Indicates if member answered the request
@@ -68,9 +68,10 @@ class FriendshipRequest
     private $answerDate = null;
 
     /**
-     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     * @var \DateTime
+     * @ORM\Column(name="cancel_date", type="datetime", nullable=true)
      */
-    private $deleteDate = null;
+    private $cancelDate = null;
 
     /**
      * Get id
@@ -122,39 +123,39 @@ class FriendshipRequest
     }
 
     /**
-     * @param \Tripwer\SocialNetworkingBundle\Entity\Member $from
+     * @param \Tripwer\SocialNetworkingBundle\Entity\Member $sender
      * @return FriendshipRequest
      */
-    public function setFrom($from)
+    public function setSender($sender)
     {
-        $this->from = $from;
+        $this->sender = $sender;
         return $this;
     }
 
     /**
      * @return \Tripwer\SocialNetworkingBundle\Entity\Member
      */
-    public function getFrom()
+    public function getSender()
     {
-        return $this->from;
+        return $this->sender;
     }
 
     /**
-     * @param \Tripwer\SocialNetworkingBundle\Entity\Member $to
+     * @param \Tripwer\SocialNetworkingBundle\Entity\Member $receiver
      * @return FriendshipRequest
      */
-    public function setTo($to)
+    public function setTo($receiver)
     {
-        $this->to = $to;
+        $this->receiver = $receiver;
         return $this;
     }
 
     /**
      * @return \Tripwer\SocialNetworkingBundle\Entity\Member
      */
-    public function getTo()
+    public function getReceiver()
     {
-        return $this->to;
+        return $this->receiver;
     }
 
     /**
@@ -194,28 +195,18 @@ class FriendshipRequest
     }
 
     /**
-     * @param mixed $deleteDate
-     * @return FriendshipRequest
+     * @return \DateTime|null
      */
-    public function setDeleteDate($deleteDate)
-    {
-        $this->deleteDate = $deleteDate;
-        return $this;
+    public function getCanceledDate(){
+        return $this->cancelDate;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getDeleteDate()
-    {
-        return $this->deleteDate;
+    public function isCanceled(){
+        if ($this->cancelDate)
+            return true;
+        return false;
     }
-
-
-
-
-
-
-
-
 }

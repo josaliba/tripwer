@@ -9,14 +9,16 @@ use Tripwer\SocialNetworkingBundle\Entity\Member;
 /**
  * Notification
  *
- * @ORM\Table(name="socialnetworking_notifications")
+ * @ORM\Table(name="socialnetworking__notifications")
  * @ORM\Entity
- * @Gedmo\SoftDeleteable(fieldName="deleteDate")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *      "friend_request_notification" = "Tripwer\SocialNetworkingBundle\Entity\FriendshipRequestNotification"
+ *      "friendship_request_created" = "Tripwer\SocialNetworkingBundle\Entity\Notifications\FriendshipRequestCreatedNotification",
+ *      "friendship_request_accepted" = "Tripwer\SocialNetworkingBundle\Entity\Notifications\FriendshipRequestAcceptedNotification"
+ *
  * })
+ * @Gedmo\SoftDeleteable(fieldName="deleteDate")
  */
 abstract class Notification
 {
@@ -32,7 +34,7 @@ abstract class Notification
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createDate", type="datetime")
+     * @ORM\Column(name="create_date", type="datetime")
      */
     private $createDate;
 
@@ -45,7 +47,8 @@ abstract class Notification
 
     /**
      * @var Member
-     * @ORM\ManyToOne(targetEntity="Member", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Member")
+     * @ORM\JoinColumn(name="receiver_id",nullable=false)
      *
      */
     private $receiver;

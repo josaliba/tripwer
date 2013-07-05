@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "social_networking_member" = "Tripwer\SocialNetworkingBundle\Entity\Member"
  * })
  * @todo add constraints and validation messages
- * @todo create an address entity and link it with user
+ * @todo changed address to be nullable false
  */
 abstract class User extends BaseUser
 {
@@ -69,7 +69,7 @@ abstract class User extends BaseUser
     private $subscriptionDate;
 
     /**
-     * @ORM\Column(name="deleteDate", type="datetime", nullable=true)
+     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
     private $deleteDate;
 

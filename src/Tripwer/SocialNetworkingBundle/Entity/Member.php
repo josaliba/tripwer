@@ -10,7 +10,7 @@ use Tripwer\AccountsBundle\Entity\User as TripwerUser;
 /**
  * Member
  *
- * @ORM\Table(name="socialnetworking_members")
+ * @ORM\Table(name="socialnetworking__members")
  * @ORM\Entity
  */
 class Member extends TripwerUser
@@ -18,7 +18,10 @@ class Member extends TripwerUser
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $friends
      * @ORM\ManyToMany(targetEntity="Member")
-     * @ORM\JoinTable(name="socialnetworking_members_friendship_relationship")
+     * @ORM\JoinTable(name="socialnetworking__members__friends",
+     *      joinColumns={@ORM\JoinColumn(name="member_initiator_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="member_accepter_id", referencedColumnName="id")}
+     *      )
      */
     private $friends;
 
@@ -26,36 +29,25 @@ class Member extends TripwerUser
      * Members that $this doesn't want to receive friendship requests from
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Member")
-     * @ORM\JoinTable(name="socialnetworking_members_blacklist")
+     * @ORM\JoinTable(name="socialnetworking__members__blacklist",
+     *      joinColumns={@ORM\JoinColumn(name="member_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="blacklisted_member_id", referencedColumnName="id")}
+     *      )
      */
     private $blacklistedMembers;
 
     /**
-     * @var ArrayCollection $notificationsReceived
-     * @ORM\OneToMany(targetEntity="Notification",mappedBy="receiver",cascade={"all"})
+     * @var Feed $feed
+     * @ORM\OneToOne(targetEntity="Tripwer\SocialNetworkingBundle\Entity\Feed")
+     * @ORM\JoinColumn(name="feed_id", nullable = false)
      */
-    private $notificationsReceived;
+    private $feed;
 
-    /**
-     * @var ArrayCollection $friendRequestsReceived
-     * @ORM\OneToMany(targetEntity="FriendshipRequest",mappedBy="to",cascade={"all"})
-     */
-    private $friendshipRequestsReceived;
-
-    /**
-     * @var ArrayCollection $friendRequestsSent
-     * @ORM\OneToMany(targetEntity="FriendshipRequest",mappedBy="from",cascade={"all"})
-     */
-    private $friendshipRequestsSent;
 
     public function __construct(){
         parent::__construct();
         $this->friends = new ArrayCollection();
         $this->blacklistedMembers = new ArrayCollection();
-        $this->notificationsReceived = new ArrayCollection();
-        $this->friendRequestsReceived = new ArrayCollection();
-        $this->friendRequestsSent = new ArrayCollection();
-
     }
 
     public function getBlacklistedMembers(){
@@ -89,7 +81,6 @@ class Member extends TripwerUser
 
     public function hasFriend(Member $member){
         return $this->friends->contains($member);
-
     }
 
     public function addFriend(Member $member, $reverse = true){
@@ -110,16 +101,26 @@ class Member extends TripwerUser
         return $this;
     }
 
-    public function getNotificationsReceived(){
-        return $this->notificationsReceived;
+    /**
+     * @param Feed $feed
+     * @return Member
+     */
+    public function setFeed($feed)
+    {
+        $this->feed = $feed;
+        return $this;
     }
 
-    public function getFriendshipRequestsReceived(){
-        return $this->friendshipRequestsReceived;
+    /**
+     * @return Feed
+     */
+    public function getFeed()
+    {
+        return $this->feed;
     }
 
-    public function getFriendshipRequestsSent(){
-        return $this->friendshipRequestsSent;
-    }
+
+
+
 
 }

@@ -16,7 +16,11 @@ class DefaultController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository("TripwerAccountsBundle:User")->findAll();
-        $em->remove($users[0]);
+        $user1 = $users[0];
+        $user2 = $users[1];
+
+        $user1->addMemberToBlacklist($user2);
+        $em->persist($user1);
         $em->flush();
         die();
         return array('name' => $name);
